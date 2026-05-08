@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
-            $table->decimal('total_price', 10, 2);
-            $table->enum('status', ['en_attente', 'en_preparation', 'prete','refuse','annule'])->default('en_attente')->index();
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->decimal('price', 10, 2);
+            $table->string('photo')->nullable();
+            $table->boolean('is_available')->default(true)->index();
+            $table->integer('temps_preparation')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('products');
     }
 };

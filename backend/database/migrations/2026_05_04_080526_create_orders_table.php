@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('users_id')->constrained()->onDelete('cascade');
             $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->integer('Ordre')->default(0);
-            $table->boolean('is_active')->default(true)->index();
+            $table->decimal('total_price', 10, 2);
+            $table->enum('status', ['en_attente', 'en_preparation', 'prete','refuse','annule'])->default('en_attente')->index();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('orders');
     }
 };
