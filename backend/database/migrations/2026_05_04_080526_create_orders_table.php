@@ -12,13 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('users_id')->constrained()->onDelete('cascade');
-            $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
-            $table->decimal('total_price', 10, 2);
-            $table->enum('status', ['en_attente', 'en_preparation', 'prete','refuse','annule'])->default('en_attente')->index();
-            $table->timestamps();
-        });
+    $table->id();
+
+    $table->foreignId('user_id')->constrained()->onDelete('cascade');
+    $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
+
+    $table->decimal('total_price', 10, 2)->default(0);
+
+    $table->enum('status', [
+        'en_attente',
+        'en_preparation',
+        'prete',
+        'refuse',
+        'annule'
+    ])->default('en_attente')->index();
+
+    $table->timestamps();
+});
     }
 
     /**
